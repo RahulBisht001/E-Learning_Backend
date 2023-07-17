@@ -35,7 +35,7 @@ export const buySubscription = catchAsyncError(async (req, res, next) => {
 
     await user.save()
 
-
+    res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
     res.status(201).json({
         success: true,
         subscriptionId: subscription.id,
@@ -77,7 +77,7 @@ export const paymentVerification = catchAsyncError(async (req, res, next) => {
     user.subscription.status = "active"
 
     await user.save()
-
+    res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
     return res.redirect(
         `${process.env.FRONTEND_URL}/payment-success?reference=${razorpay_payment_id}`
     )
@@ -88,7 +88,7 @@ export const paymentVerification = catchAsyncError(async (req, res, next) => {
 
 export const getRazorpayKey = catchAsyncError(
     async (req, res, next) => {
-
+        res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
         return res.status(200)
             .json({
                 success: true,
@@ -150,7 +150,7 @@ export const cancelSubscription = catchAsyncError(
 
             await Payment.findByIdAndDelete(payment._id)
             await user.save()
-
+            res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
             return res.status(200)
                 .json({
                     success: true,
