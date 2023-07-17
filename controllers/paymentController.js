@@ -63,7 +63,7 @@ export const paymentVerification = catchAsyncError(async (req, res, next) => {
     const isAuthentic = generated_signature === razorpay_signature
 
     if (!isAuthentic) {
-        return res.redirect(`${process.env.FRONTEND_URL}/payment-fail`)
+        return res.redirect('https://e-learning-front-end-iota.vercel.app/payment-fail')
     }
 
     //* If payment is Authentic then We will store it in the DataBase
@@ -79,7 +79,7 @@ export const paymentVerification = catchAsyncError(async (req, res, next) => {
     await user.save()
     res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
     return res.redirect(
-        `${process.env.FRONTEND_URL}/payment-success?reference=${razorpay_payment_id}`
+        `https://e-learning-front-end-iota.vercel.app/payment-success?reference=${razorpay_payment_id}`
     )
 });
 
