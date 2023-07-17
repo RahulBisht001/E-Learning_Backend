@@ -34,7 +34,7 @@ export const getAllCourses = catchAsyncError(async (req, res, next) => {
 
     console.log('_---------------------')
     console.log(courses)
-
+    res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
     res.status(200).json({
         success: true,
         courses,
@@ -75,7 +75,7 @@ export const createCourse = catchAsyncError(async (req, res, next) => {
     })
 
     await newCourse.save()
-
+    res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
     res.status(201)
         .json({
             success: true,
@@ -95,7 +95,7 @@ export const getCourseLectures = catchAsyncError(async (req, res, next) => {
 
     course.views += 1
     await course.save()
-
+    res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
     res.status(200).json({
         success: true,
         lectures: course.lectures
@@ -137,7 +137,7 @@ export const addLectures = catchAsyncError(async (req, res, next) => {
     course.numOfVideos = course.lectures.length
 
     await course.save()
-
+    res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
     res.status(200).json({
         success: true,
         message: "Lecture added in the Course Successfully"
@@ -171,7 +171,7 @@ export const deleteCourse = catchAsyncError(
 
         // await course.remove()
         await Course.findByIdAndDelete(course._id)
-
+        res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
         res.status(200).json({
             success: true,
             message: 'Course Deleted Successfully'
@@ -206,7 +206,7 @@ export const deleteLecture = catchAsyncError(
 
         course.numOfVideos = course.lectures.length
         await course.save()
-
+        res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
         res.status(200).json({
             success: true,
             message: 'Lecture Deleted Successfully'
