@@ -10,7 +10,7 @@ export const sendToken = (res, user, message, statusCode = 200) => {
         secure: true,
         sameSite: 'none',
     }
-     // res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
+     res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
     res.status(statusCode)
         .cookie("token", token, options)
         .json({
