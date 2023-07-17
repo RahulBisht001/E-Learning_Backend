@@ -22,7 +22,8 @@ dotenv.config({
 //?   CORS option
 
 const corsOptions = {
-    origin: process.env.FRONTEND_URL,
+    // origin: process.env.FRONTEND_URL,
+    origin: 'https://e-learning-front-end-iota.vercel.app',
     credentials: true,
     methods: ['GET', 'POST', 'PUT','PATCH', 'DELETE'],
     optionSuccessStatus: 200
