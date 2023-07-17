@@ -77,7 +77,6 @@ export const login = catchAsyncError(
         if (!isMatch) {
             return next(new ErrorHandler("Incorrect Email or Password", 401))
         }
-             res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
 
         sendToken(res, user, `Welcome Back , ${user.name}`, 200)
     }
@@ -92,8 +91,8 @@ export const logout = catchAsyncError(
             .cookie('token', null, {
                 expires: new Date(Date.now()),
                 httpOnly: true,
-                // secure: true,
-                // sameSite: 'none',
+                secure: true,
+                sameSite: 'none',
             })
             .json({
                 success: true,
@@ -434,8 +433,8 @@ export const deleteMyProfile = catchAsyncError(
             .cookie('token', null, {
                 expires: new Date(Date.now()),
                 httpOnly: true,
-                // secure: true,
-                // sameSite: 'none',
+                secure: true,
+                sameSite: 'none',
             })
             .json({
                 success: true,
