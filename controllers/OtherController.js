@@ -36,7 +36,7 @@ Please respond to the user's inquiry as soon as possible.`
         await sendEmail(to, subject, text)
         console.log(text)
 
-
+        res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
         res.status(200)
             .json({
                 success: true,
@@ -75,7 +75,7 @@ Please respond to the user's inquiry as soon as possible.`
         await sendEmail(to, subject, text)
         console.log(text)
 
-
+        res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
         res.status(200)
             .json({
                 success: true,
@@ -148,7 +148,7 @@ export const getDashboardStats = catchAsyncError(
             if (viewsPercentage < 0)
                 viewsProfit = false
         }
-
+        res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
         res.status(200)
             .json({
                 success: true,
