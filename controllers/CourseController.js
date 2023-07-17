@@ -11,36 +11,34 @@ import ErrorHandler from '../utils/errorHandler.js'
 
 export const getAllCourses = catchAsyncError(async (req, res, next) => {
 
-    const keyword = req.query.keyword || ""
-    const category = req.query.category || ""
+    let keyword = req.query.keyword || "";
+    let category = req.query.category || "";
 
-    //^ It will return all the course as array of object from the backend
+    // //^ It will return all the course as array of object from the backend
+    const query = {};
+
+    if (category !== "") {
+        query.category = { $regex: category, $options: "i" };
+    }
+
+    if (keyword !== "") {
+        query.$or = [
+            { title: { $regex: keyword, $options: "i" } },
+            { description: { $regex: keyword, $options: "i" } }
+        ];
+    }
+
     const courses = await Course
-        .find({
-            category: {
-                $regex: category,
-                $options: 'i'
-            },
-            $or: [
-                {
-                    title: {
-                        $regex: keyword,
-                        $options: 'i'
-                    }
-                },
-                {
-                    description: {
-                        $regex: keyword,
-                        $options: 'i'
-                    }
-                }
-            ]
-        })
-        .select("-lectures")
+        .find(query)
+        .select("-lectures");
+
+    console.log('_---------------------')
+    console.log(courses)
 
     res.status(200).json({
         success: true,
-        courses
+        courses,
+        message: 'All Courses'
     })
 })
 
@@ -53,6 +51,12 @@ export const createCourse = catchAsyncError(async (req, res, next) => {
 
     //^ Uploading the file to the cloudinary 
     const myCloud = await cloudinary.v2.uploader.upload(fileUri.content)
+
+    console.log(title)
+    console.log(description)
+    console.log(category)
+    console.log(createdBy)
+
 
     if (!title || !description || !category || !createdBy) {
         console.log("Course creation Function Error")

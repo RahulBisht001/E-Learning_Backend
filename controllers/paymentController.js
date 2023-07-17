@@ -15,11 +15,14 @@ export const buySubscription = catchAsyncError(async (req, res, next) => {
 
     const user = await User.findById(id)
 
+
     if (user.role === "admin") {
         return next(new ErrorHandler("Admin Can't Buy Subscription", 401))
     }
 
     const plan_id = process.env.PLAN_ID || "plan_MCE9dqGij6DlsJ"
+
+
 
     const subscription = await instance.subscriptions.create({
         plan_id,
@@ -31,6 +34,7 @@ export const buySubscription = catchAsyncError(async (req, res, next) => {
     user.subscription.status = subscription.status
 
     await user.save()
+
 
     res.status(201).json({
         success: true,
@@ -85,9 +89,6 @@ export const paymentVerification = catchAsyncError(async (req, res, next) => {
 export const getRazorpayKey = catchAsyncError(
     async (req, res, next) => {
 
-        const id = req.user._id
-        const user = await User.findById(id)
-
         return res.status(200)
             .json({
                 success: true,
@@ -111,7 +112,7 @@ export const cancelSubscription = catchAsyncError(
         const payment = await Payment.findOne({
             razorpay_subscription_id: subscriptionId
         })
-        console.log(payment)
+        // console.log(payment)
 
         //? Finding the gap that wheather the user is eligible for refund
         const gap = Date.now() - payment.createdAt
@@ -135,7 +136,8 @@ export const cancelSubscription = catchAsyncError(
                         })
                 })
                 .catch((err) => {
-                    console.log("----------" + err)
+                    console.log("----------")
+                    console.log(err)
                     return res.status(500).json({
                         success: false,
                         message: "Internal server error"

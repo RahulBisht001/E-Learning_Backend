@@ -70,12 +70,12 @@ export const login = catchAsyncError(
         const user = await User.findOne({ email }).select('+password')
         // console.log(user)
         if (!user) {
-            return next(new ErrorHandler("Incorrect Email or Password 1", 401))
+            return next(new ErrorHandler("Incorrect Email or Password", 401))
         }
 
         const isMatch = await user.comparePassword(password)
         if (!isMatch) {
-            return next(new ErrorHandler("Incorrect Email or Password 2", 401))
+            return next(new ErrorHandler("Incorrect Email or Password", 401))
         }
 
         sendToken(res, user, `Welcome Back , ${user.name}`, 200)
@@ -91,8 +91,8 @@ export const logout = catchAsyncError(
             .cookie('token', null, {
                 expires: new Date(Date.now()),
                 httpOnly: true,
-                secure: true,
-                sameSite: 'none',
+                // secure: true,
+                // sameSite: 'none',
             })
             .json({
                 success: true,
@@ -248,28 +248,34 @@ export const resetPassword = catchAsyncError(
     async (req, res, next) => {
 
         const { token } = req.params
-        // console.log(token)
+
         const resetPasswordToken
             = crypto.createHash('sha256')
                 .update(token)
                 .digest('hex')
 
-        const user = User.findOne({
+        const user = await User.findOne({
             resetPasswordToken,
             resetPasswordExpires: {
                 $gt: Date.now()
             }
         })
 
-        if (!user) {
-            return next(new ErrorHandler("Reset Token is Invalid or has been Expired", 401))
+        if (user === null || !user) {
+            return res.status(401).json({
+                success: false,
+                message: "Reset Token is Invalid or has been Expired"
+            })
+            // return next(new ErrorHandler("Reset Token is Invalid or has been Expired", 401))
         }
+
 
         user.password = req.body.password
         user.resetPasswordExpires = undefined
         user.resetPasswordToken = undefined
 
         await user.save()
+
 
         res.status(200)
             .json({
@@ -302,12 +308,14 @@ export const addToPlaylist = catchAsyncError(
         }
         user.playlist.push({
             course: course._id,
-            poster: course.poster.url
+            poster: course.poster.url,
+            //* ____ update 
+            title: course.title
         })
 
         await user.save()
 
-        res.status(200)
+        return res.status(200)
             .json({
                 success: true,
                 message: 'Course Added to Playlist Successfully'
@@ -423,7 +431,10 @@ export const deleteMyProfile = catchAsyncError(
 
         res.status(200)
             .cookie('token', null, {
-                expires: new Date(Date.now())
+                expires: new Date(Date.now()),
+                httpOnly: true,
+                // secure: true,
+                // sameSite: 'none',
             })
             .json({
                 success: true,
