@@ -87,7 +87,8 @@ export const login = catchAsyncError(
 export const logout = catchAsyncError(
     async (req, res, next) => {
 
-        res.status(200)
+        res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
+        return res.status(200)
             .cookie('token', null, {
                 expires: new Date(Date.now()),
                 httpOnly: true,
@@ -108,6 +109,7 @@ export const getMyProfile = catchAsyncError(
 
         const user = await User.findById(req.user._id)
 
+        res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
         return res.status(200)
             .json({
                 success: true,
@@ -138,6 +140,7 @@ export const changePassword = catchAsyncError(
         user.password = newPassword
         await user.save()
 
+        res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
         return res.status(200)
             .json({
                 success: true,
@@ -159,6 +162,7 @@ export const updateProfile = catchAsyncError(
 
         await user.save()
 
+        res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
         return res.status(200)
             .json({
                 success: true,
@@ -187,7 +191,8 @@ export const updateProfilePicture = catchAsyncError(
 
         await user.save()
 
-        res.status(200)
+        res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
+        return res.status(200)
             .json({
                 message: "Profile Picture Updated Successfully"
             })
@@ -234,7 +239,8 @@ export const forgotPassword = catchAsyncError(
 
         const maskedEmail = username + '*'.repeat(10) + domain
 
-        res.status(200)
+        res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
+        return res.status(200)
             .json({
                 success: true,
                 message: `Reset password link has been sent to ${maskedEmail}`,
@@ -276,8 +282,8 @@ export const resetPassword = catchAsyncError(
 
         await user.save()
 
-
-        res.status(200)
+        res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
+        return res.status(200)
             .json({
                 success: true,
                 message: 'Password Reset Successfully'
@@ -315,6 +321,7 @@ export const addToPlaylist = catchAsyncError(
 
         await user.save()
 
+        res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
         return res.status(200)
             .json({
                 success: true,
@@ -341,8 +348,8 @@ export const removeFromPlaylist = catchAsyncError(
 
         user.playlist = newPlaylist
         await user.save()
-
-        res.status(200)
+        res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
+        return res.status(200)
             .json({
                 success: true,
                 message: 'Course Removed from Playlist Successfully'
@@ -358,7 +365,8 @@ export const getAllUsers = catchAsyncError(
 
         const allUsers = await User.find({})
 
-        res.status(200)
+        res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
+        return res.status(200)
             .json({
                 success: true,
                 message: 'All users',
@@ -383,8 +391,8 @@ export const updateUserRole = catchAsyncError(
             user.role = 'user'
 
         await user.save()
-
-        res.status(200)
+        res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
+        return res.status(200)
             .json({
                 success: true,
                 message: 'User Role Updated Successfully'
@@ -407,8 +415,8 @@ export const deleteUser = catchAsyncError(
         //TODO : ______  Cancel Subscription if subscribed  _______
 
         await User.findByIdAndDelete(id)
-
-        res.status(200)
+         res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
+        return res.status(200)
             .json({
                 success: true,
                 message: 'User Deleted Successfully'
@@ -428,8 +436,8 @@ export const deleteMyProfile = catchAsyncError(
         //TODO : ______  Cancel Subscription if subscribed  _______
 
         await User.findByIdAndDelete(req.user._id)
-
-        res.status(200)
+        res.setHeader('Access-Control-Allow-Origin', 'https://e-learning-front-end-iota.vercel.app');
+        return res.status(200)
             .cookie('token', null, {
                 expires: new Date(Date.now()),
                 httpOnly: true,
